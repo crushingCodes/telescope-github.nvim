@@ -95,6 +95,7 @@ end
 A.gh_pr_checkout = function(prompt_bufnr)
   local pr_number = close_telescope_prompt(prompt_bufnr)
   gh_qf_action(pr_number, "checkout", "Checking out pull request #")
+  vim.cmd "DiffviewPR"
 end
 
 A.gh_web_view = function(type)
@@ -349,5 +350,12 @@ A.gh_run_view_log = function(opts)
     end
   end
 end
+
+vim.api.nvim_exec2(
+  [[
+  command! DiffviewPR execute 'DiffviewOpen ' . system('git merge-base HEAD ' . system('gh pr view --json baseRefName | jq .baseRefName'))
+]],
+  {}
+)
 
 return A
