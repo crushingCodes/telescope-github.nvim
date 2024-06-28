@@ -91,11 +91,10 @@ A.gh_issue_insert_markdown_link = function(prompt_bufnr)
     vim.api.nvim_put(text, "b", true, true)
   end
 end
-
 A.gh_pr_checkout = function(prompt_bufnr)
   local pr_number = close_telescope_prompt(prompt_bufnr)
   gh_qf_action(pr_number, "checkout", "Checking out pull request #")
-  vim.cmd "DiffviewPR"
+  vim.api.nvim_exec_autocmds("User", { pattern = "TelescopePROpenPR" })
 end
 
 A.gh_web_view = function(type)
